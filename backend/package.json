@@ -1,0 +1,45 @@
+{
+  "name": "smart-agri-backend",
+  "version": "1.0.0",
+  "description": "Smart Agriculture and Crop Monitoring Dashboard REST API - Project No. 60, SR University",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "db:init": "node database/init.js",
+    "test": "jest --runInBand --detectOpenHandles --forceExit"
+  },
+  "keywords": [
+    "agriculture",
+    "crop-monitoring",
+    "express",
+    "postgresql",
+    "jwt",
+    "devops"
+  ],
+  "author": "SR University - B.Tech Project Team",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.3.1",
+    "express-validator": "^7.1.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.12.0",
+    "pg-mem": "^2.8.1",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.4",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testTimeout": 15000
+  }
+}

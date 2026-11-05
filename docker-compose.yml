@@ -1,0 +1,102 @@
+version: '3.8'
+
+# =============================================================================
+# SMART AGRICULTURE AND CROP MONITORING DASHBOARD
+# Project No. 60 | SR University | Academic Year 2026-2027
+# Unified Docker Compose Multi-Container Architecture
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # 1. PostgreSQL Database Service
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: smart_agri_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-smart_agri_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./backend/database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-smart_agri_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - smart_agri_net
+
+  # ---------------------------------------------------------------------------
+  # 2. Backend REST API Service (Node.js & Express)
+  # ---------------------------------------------------------------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: smart_agri_backend
+    restart: unless-stopped
+    environment:
+      PORT: 5000
+      NODE_ENV: production
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_NAME: ${DB_NAME:-smart_agri_db}
+      DATABASE_URL: postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@postgres:5432/${DB_NAME:-smart_agri_db}
+      JWT_SECRET: ${JWT_SECRET:-sr_university_smart_agriculture_secret_key_2026_devops}
+      JWT_EXPIRES_IN: 24h
+      CLIENT_URL: http://localhost:80
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - smart_agri_net
+
+  # ---------------------------------------------------------------------------
+  # 3. Frontend Web Service (React, Vite & Nginx)
+  # ---------------------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: /api
+    container_name: smart_agri_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost/"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+    networks:
+      - smart_agri_net
+
+volumes:
+  postgres_data:
+    name: smart_agri_postgres_data
+
+networks:
+  smart_agri_net:
+    name: smart_agri_network
+    driver: bridge
