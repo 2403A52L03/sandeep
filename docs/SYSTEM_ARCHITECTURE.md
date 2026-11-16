@@ -288,3 +288,4 @@ flowchart TD
     ReportEngine -->|8. Formatted Data & Trends| VisualUI[Charts, KPI Widgets, Print/CSV Views]
     VisualUI --> User
 ```
+

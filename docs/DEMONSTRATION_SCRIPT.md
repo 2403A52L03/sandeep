@@ -173,3 +173,4 @@ docker compose up --build
   `http://localhost:5000/api/docs`
 - Check Health Endpoint:
   `http://localhost:5000/api/health` -> Returns `HTTP 200 { "status": "ONLINE" }`.
+

@@ -6,3 +6,4 @@ metadata:
 data:
   POSTGRES_DB: smart_agri_db
   PGPORT: "5432"
+

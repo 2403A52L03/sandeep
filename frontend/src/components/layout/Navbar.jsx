@@ -184,3 +184,4 @@ const Navbar = ({ onMenuClick }) => {
 };
 
 export default Navbar;
+

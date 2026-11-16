@@ -11,3 +11,4 @@ router.get('/irrigation', reportController.getIrrigationReport);
 router.get('/yield', reportController.getYieldReport);
 
 module.exports = router;
+

@@ -267,3 +267,4 @@ module.exports = {
   updateActivity,
   deleteActivity
 };
+

@@ -46,3 +46,4 @@ export const formatNumber = (num, decimals = 1) => {
   if (num === null || num === undefined || isNaN(num)) return '0';
   return parseFloat(num).toFixed(decimals);
 };
+

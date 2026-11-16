@@ -1,16 +1,17 @@
-/**
- * Standalone Database Initialization Script
- * Connects to PostgreSQL, executes schema.sql and seed.sql
- */
-const fs = require('fs');
-const path = require('path');
-const { Pool } = require('pg');
-const env = require('../src/config/env');
+
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import pg from "pg";
+import env from "../src/config/env.js";
+
+const { Pool } = pg;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const run = async () => {
-  console.log('[Init] Connecting to PostgreSQL database at', env.DB.host, '...');
   const pool = new Pool({
-    connectionString: env.DB.connectionString,
     host: env.DB.host,
     port: env.DB.port,
     user: env.DB.user,
@@ -19,24 +20,35 @@ const run = async () => {
   });
 
   try {
-    const schemaSql = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
-    const seedSql = fs.readFileSync(path.join(__dirname, 'seed.sql'), 'utf8');
+    console.log("[Init] Connecting to PostgreSQL...");
+    
+    await pool.query("SELECT 1");
+    console.log("[Init] Database connection successful.");
 
-    console.log('[Init] Executing schema.sql...');
+    const schemaSql = fs.readFileSync(
+      path.join(__dirname, "schema.sql"),
+      "utf8"
+    );
+
+    const seedSql = fs.readFileSync(
+      path.join(__dirname, "seed.sql"),
+      "utf8"
+    );
+
+    console.log("[Init] Executing schema.sql...");
     await pool.query(schemaSql);
-    console.log('[Init] Schema created successfully.');
+    console.log("[Init] Schema created successfully.");
 
-    console.log('[Init] Executing seed.sql...');
+    console.log("[Init] Executing seed.sql...");
     await pool.query(seedSql);
-    console.log('[Init] Demo seed data loaded successfully.');
+    console.log("[Init] Demo data loaded successfully.");
 
+    console.log("[Init] Database initialization complete.");
+  } catch (error) {
+    console.error("[Init] Database initialization failed:", error);
+    process.exitCode = 1;
+  } finally {
     await pool.end();
-    console.log('[Init] Database initialization complete.');
-    process.exit(0);
-  } catch (err) {
-    console.error('[Init] Error during database initialization:', err);
-    await pool.end();
-    process.exit(1);
   }
 };
 

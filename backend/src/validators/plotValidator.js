@@ -24,3 +24,4 @@ const plotValidator = [
 module.exports = {
   plotValidator
 };
+

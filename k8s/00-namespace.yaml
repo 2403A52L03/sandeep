@@ -6,3 +6,4 @@ metadata:
     app.kubernetes.io/name: smart-agriculture
     app.kubernetes.io/part-of: smart-agri-platform
     project: sru-project-60
+

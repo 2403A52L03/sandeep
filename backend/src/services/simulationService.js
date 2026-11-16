@@ -50,3 +50,4 @@ const generateSimulatedReading = (farmId, plotId, dataSource = 'Simulated (Demo)
 module.exports = {
   generateSimulatedReading
 };
+

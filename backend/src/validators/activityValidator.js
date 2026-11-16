@@ -21,3 +21,4 @@ const activityValidator = [
 module.exports = {
   activityValidator
 };
+

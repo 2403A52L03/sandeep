@@ -14,3 +14,4 @@ router.put('/:id', authorizeRoles('admin', 'farmer', 'officer'), plotValidator, 
 router.delete('/:id', authorizeRoles('admin', 'farmer'), plotController.deletePlot);
 
 module.exports = router;
+

@@ -13,3 +13,4 @@ router.put('/users/:id', adminController.updateUser);
 router.patch('/users/:id/status', adminController.toggleUserStatus);
 
 module.exports = router;
+

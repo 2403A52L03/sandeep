@@ -19,3 +19,4 @@ router.post('/environment/simulate', monitoringController.triggerSimulation);
 router.get('/trends', monitoringController.getTrends);
 
 module.exports = router;
+

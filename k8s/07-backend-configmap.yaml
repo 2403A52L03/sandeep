@@ -12,3 +12,4 @@ data:
   DB_NAME: "smart_agri_db"
   DATABASE_URL: "postgresql://postgres:AgriSecurePassword2026@postgres-service:5432/smart_agri_db"
   JWT_EXPIRES_IN: "24h"
+

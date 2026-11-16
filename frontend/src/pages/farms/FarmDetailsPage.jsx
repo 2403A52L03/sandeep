@@ -197,3 +197,4 @@ const FarmDetailsPage = () => {
 };
 
 export default FarmDetailsPage;
+

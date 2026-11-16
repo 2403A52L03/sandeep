@@ -17,3 +17,4 @@ router.put('/:id', authorizeRoles('admin', 'farmer', 'officer'), farmValidator, 
 router.delete('/:id', authorizeRoles('admin', 'farmer'), farmController.deleteFarm);
 
 module.exports = router;
+

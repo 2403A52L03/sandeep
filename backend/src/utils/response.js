@@ -1,8 +1,15 @@
+
 /**
  * Standardized API response formatters
  */
 
-const successResponse = (res, statusCode = 200, message = 'Success', data = null, meta = null) => {
+export const successResponse = (
+  res,
+  statusCode = 200,
+  message = "Success",
+  data = null,
+  meta = null
+) => {
   const response = {
     success: true,
     message,
@@ -16,15 +23,15 @@ const successResponse = (res, statusCode = 200, message = 'Success', data = null
   return res.status(statusCode).json(response);
 };
 
-const errorResponse = (res, statusCode = 500, message = 'An error occurred', errors = []) => {
+export const errorResponse = (
+  res,
+  statusCode = 500,
+  message = "An error occurred",
+  errors = []
+) => {
   return res.status(statusCode).json({
     success: false,
     message,
     errors: Array.isArray(errors) ? errors : [errors]
   });
-};
-
-module.exports = {
-  successResponse,
-  errorResponse
 };

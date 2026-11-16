@@ -31,3 +31,4 @@ export const EmptyState = ({ title = 'No Data Available', message = 'No records 
 };
 
 export default { LoadingSkeleton, EmptyState };
+

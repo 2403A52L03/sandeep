@@ -33,3 +33,4 @@ Thumbs.db
 # Docker / Kubernetes local volumes
 postgres_data/
 .k8s/
+

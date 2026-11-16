@@ -31,3 +31,4 @@ export const exportToCSV = (data, filename = 'export.csv') => {
 export const triggerPrint = () => {
   window.print();
 };
+

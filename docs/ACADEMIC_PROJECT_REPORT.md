@@ -332,3 +332,4 @@ The **Smart Agriculture and Crop Monitoring Dashboard** satisfies all official r
 3. React Documentation: Official React 18 Guides and Best Practices, https://react.dev.
 4. PostgreSQL Global Development Group: PostgreSQL 16 Documentation, https://www.postgresql.org/docs/16/.
 5. Kubernetes Authors: Production Kubernetes Documentation, https://kubernetes.io/docs/.
+

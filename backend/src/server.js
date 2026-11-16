@@ -1,39 +1,59 @@
-const app = require('./app');
-const env = require('./config/env');
-const { initDb } = require('./config/db');
-const logger = require('./utils/logger');
 
-const startServer = async () => {
-  try {
-    logger.info('Initializing Smart Agriculture & Crop Monitoring Platform backend...');
-    
-    // Auto-verify / init database tables and seed data
-    await initDb();
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import authRoutes from "./routes/authRoutes.js";
+import { testConnection } from "./config/db.js";
 
-    const server = app.listen(env.PORT, () => {
-      logger.info(`=============================================================`);
-      logger.info(`  Smart Agriculture & Crop Monitoring Dashboard REST API   `);
-      logger.info(`  SR University - Project No. 60 (DevOps & Full Stack)     `);
-      logger.info(`  Status: RUNNING on http://localhost:${env.PORT}             `);
-      logger.info(`  Health check: http://localhost:${env.PORT}/api/health       `);
-      logger.info(`  Swagger Docs: http://localhost:${env.PORT}/api/docs         `);
-      logger.info(`=============================================================`);
-    });
+dotenv.config();
 
-    const shutdown = () => {
-      logger.info('Gracefully shutting down HTTP server...');
-      server.close(() => {
-        logger.info('HTTP server closed.');
-        process.exit(0);
-      });
-    };
+testConnection();
 
-    process.on('SIGTERM', shutdown);
-    process.on('SIGINT', shutdown);
-  } catch (err) {
-    logger.error('Failed to start server:', err);
-    process.exit(1);
-  }
-};
+const app = express();
 
-startServer();
+// Middleware
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    credentials: true,
+  })
+);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Health Check
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Smart Agriculture Backend is running",
+  });
+});
+
+// Authentication Routes
+app.use("/api/auth", authRoutes);
+
+// 404 Handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.method} ${req.originalUrl} not found`,
+  });
+});
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error("Server Error:", err);
+
+  res.status(500).json({
+    success: false,
+    message: "Internal server error",
+  });
+});
+
+// Start Server
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

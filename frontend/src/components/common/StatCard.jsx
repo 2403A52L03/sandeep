@@ -48,3 +48,4 @@ const StatCard = ({ title, value, icon: Icon, color = 'forest', subtitle, trend 
 };
 
 export default StatCard;
+

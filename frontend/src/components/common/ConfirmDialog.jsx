@@ -42,3 +42,4 @@ const ConfirmDialog = ({ isOpen, onClose, onConfirm, title = 'Confirm Action', m
 };
 
 export default ConfirmDialog;
+

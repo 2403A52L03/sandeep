@@ -13,3 +13,4 @@ router.get('/irrigation-trends', dashboardController.getIrrigationUsageTrends);
 router.get('/crop-progress', dashboardController.getCropProgressTrends);
 
 module.exports = router;
+

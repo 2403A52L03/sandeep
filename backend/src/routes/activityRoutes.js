@@ -14,3 +14,4 @@ router.put('/:id', authorizeRoles('admin', 'farmer', 'officer'), activityControl
 router.delete('/:id', authorizeRoles('admin', 'farmer'), activityController.deleteActivity);
 
 module.exports = router;
+

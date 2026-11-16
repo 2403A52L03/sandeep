@@ -496,3 +496,4 @@ const CropsPage = () => {
 };
 
 export default CropsPage;
+

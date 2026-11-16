@@ -171,3 +171,4 @@ const CropDetailsPage = () => {
 };
 
 export default CropDetailsPage;
+

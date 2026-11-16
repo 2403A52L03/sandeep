@@ -254,3 +254,4 @@ module.exports = {
   updateIrrigationRecord,
   deleteIrrigationRecord
 };
+

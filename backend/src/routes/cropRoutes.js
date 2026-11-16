@@ -14,3 +14,4 @@ router.put('/:id', authorizeRoles('admin', 'farmer', 'officer', 'agronomist'), c
 router.delete('/:id', authorizeRoles('admin', 'farmer'), cropController.deleteCrop);
 
 module.exports = router;
+
